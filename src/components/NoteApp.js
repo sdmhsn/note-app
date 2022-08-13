@@ -12,6 +12,7 @@ class NoteApp extends React.Component {
     };
 
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
+    this.onDeleteEventHandler = this.onDeleteEventHandler.bind(this);
   }
 
   onAddNoteHandler({ title, body }) {
@@ -31,12 +32,22 @@ class NoteApp extends React.Component {
     });
   }
 
+  onDeleteEventHandler(id) {
+    const notes = this.state.notes.filter((note) => note.id !== id);
+    
+    this.setState(() => {
+        return {
+            notes,
+        };
+    });
+  }
+
   render() {
     return (
       <div className="note-app__body">
         <NoteInput addNote={this.onAddNoteHandler} />
         <h2>Active Note</h2>
-        <NoteList notes={this.state.notes} />
+        <NoteList notes={this.state.notes} onDelete={this.onDeleteEventHandler} />
       </div>
     );
   }
