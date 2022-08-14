@@ -2,6 +2,7 @@ import React from 'react';
 import { getInitialData } from '../utils/initialData';
 import NoteInput from './NoteInput';
 import NoteList from './NoteList';
+import NoteSearch from './NoteSearch';
 
 class NoteApp extends React.Component {
   constructor(props) {
@@ -11,8 +12,33 @@ class NoteApp extends React.Component {
       notes: getInitialData(),
     };
 
+    this.onSearchNoteHandler = this.onSearchNoteHandler.bind(this);
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
     this.onDeleteEventHandler = this.onDeleteEventHandler.bind(this);
+  }
+
+  onSearchNoteHandler(event) {
+    const text = event.target.value.toLowerCase();
+    const data = getInitialData();
+    const tempStorage = []
+
+    data.forEach((item) => {
+      if (item.title.toLowerCase().includes(text)) {
+        tempStorage.push(item)
+
+        this.setState(() => {
+            return {
+              notes: tempStorage
+            };
+        });
+      } else {
+        this.setState(() => {
+          return {
+            notes: tempStorage
+          };
+      });
+      }
+    });
   }
 
   onAddNoteHandler({ title, body }) {
@@ -34,21 +60,29 @@ class NoteApp extends React.Component {
 
   onDeleteEventHandler(id) {
     const notes = this.state.notes.filter((note) => note.id !== id);
-    
+
+    console.log(notes)
+
     this.setState(() => {
-        return {
-            notes,
-        };
+      return {
+        notes,
+      };
     });
   }
 
   render() {
     return (
-      <div className="note-app__body">
-        <NoteInput addNote={this.onAddNoteHandler} />
-        <h2>Active Note</h2>
-        <NoteList notes={this.state.notes} onDelete={this.onDeleteEventHandler} />
-      </div>
+      <React.Fragment>
+        <NoteSearch onKeyUp={this.onSearchNoteHandler} />
+        <div className="note-app__body">
+          <NoteInput addNote={this.onAddNoteHandler} />
+          <h2>Active Note</h2>
+          <NoteList
+            notes={this.state.notes}
+            onDelete={this.onDeleteEventHandler}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 }
