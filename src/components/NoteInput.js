@@ -7,6 +7,7 @@ class NoteInput extends React.Component {
     this.state = {
       title: '',
       body: '',
+      limitChar: 50,
     };
 
     this.onChangeEventHandler = this.onChangeEventHandler.bind(this);
@@ -14,11 +15,22 @@ class NoteInput extends React.Component {
   }
 
   onChangeEventHandler(event) {
-    this.setState(() => {
-      return {
-        [event.target.name]: event.target.value,
-      };
-    });
+    if (event.target.name === 'title') {
+      this.setState(() => {
+        return {
+          title: event.target.value.substring(0, 50),
+          limitChar: Math.max(0, this.state.limitChar - 1),
+        };
+      });
+    }
+
+    if (event.target.name === 'body') {
+      this.setState(() => {
+        return {
+          body: event.target.value,
+        };
+      });
+    }
   }
 
   onSubmitEventHandler(event) {
@@ -30,7 +42,12 @@ class NoteInput extends React.Component {
     return (
       <div className="note-input">
         <h2 className="note-input__title ">Add Note</h2>
-        <p className="note-input__title__char-limit">Character remain: 50</p>
+        <p
+          className="note-input__title__char-limit"
+          onChange={this.onChangeEventHandler}
+        >
+          Character remain: {this.state.limitChar}
+        </p>
         <form
           method="get"
           className="note-input__body"
@@ -40,7 +57,10 @@ class NoteInput extends React.Component {
             type="text"
             placeholder="Note title..."
             name="title"
+            value={this.state.title}
             onChange={this.onChangeEventHandler}
+            required
+            className="note-input__title"
           />
           <textarea
             name="body"
@@ -48,8 +68,10 @@ class NoteInput extends React.Component {
             cols="30"
             rows="10"
             onChange={this.onChangeEventHandler}
+            required
+            className="note-input__body"
           ></textarea>
-          <button>Add</button>
+          <button type="submit">Add</button>
         </form>
       </div>
     );
