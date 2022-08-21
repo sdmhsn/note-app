@@ -19,6 +19,7 @@ class NoteApp extends React.Component {
     this.onDeleteEventHandler = this.onDeleteEventHandler.bind(this);
   }
 
+  // Search Note
   onSearchNoteHandler(event) {
     this.setState(() => {
       return {
