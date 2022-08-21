@@ -18,8 +18,8 @@ class NoteInput extends React.Component {
     if (event.target.name === 'title') {
       this.setState(() => {
         return {
-          title: event.target.value.substring(0, 50),
-          limitChar: Math.max(0, this.state.limitChar - 1),
+          title: event.target.value.substring(0, 49),
+          limitChar: Math.max(0, 50) - event.target.value.length,
         };
       });
     }
@@ -46,7 +46,7 @@ class NoteInput extends React.Component {
           className="note-input__title__char-limit"
           onChange={this.onChangeEventHandler}
         >
-          Character remain: {this.state.limitChar}
+          Remaining Characters: {this.state.limitChar}
         </p>
         <form
           method="get"
