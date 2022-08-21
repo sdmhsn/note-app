@@ -4,10 +4,10 @@ import DeleteButton from './DeleteButton';
 import ArchiveMoveButton from './ArchiveMoveButton';
 
 function NoteItem({
-  title,
-  createdAt,
-  body,
   id,
+  title,
+  body,
+  createdAt,
   archived,
   onDelete,
   onArchiveMove,
@@ -24,8 +24,8 @@ function NoteItem({
         <ArchiveMoveButton
           id={id}
           title={title}
-          createdAt={createdAt}
           body={body}
+          createdAt={createdAt}
           archived={archived}
           onArchiveMove={onArchiveMove}
         />
