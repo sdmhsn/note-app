@@ -1,9 +1,13 @@
 import React from 'react';
 import NoteItem from './NoteItem';
 
-function NoteList({ notes, onDelete, onArchiveMove }) {
-  const archived = notes.filter((note) => note.archived);
-  const actived = notes.filter((note) => note.archived === false);
+function NoteList({ notes, onDelete, onArchiveMove, searchKeyword }) {
+  const filterNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
+
+  const actived = filterNotes.filter((note) => note.archived === false);
+  const archived = filterNotes.filter((note) => note.archived === true);
 
   return (
     <React.Fragment>
