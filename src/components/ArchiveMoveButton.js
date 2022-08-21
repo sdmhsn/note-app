@@ -1,10 +1,10 @@
 import React from 'react';
 
 function ArchiveMoveButton({
-  title,
-  createdAt,
-  body,
   id,
+  title,
+  body,
+  createdAt,
   archived,
   onArchiveMove,
 }) {
@@ -12,7 +12,7 @@ function ArchiveMoveButton({
     <React.Fragment>
       <button
         className="note-item__archive-button"
-        onClick={() => onArchiveMove(title, createdAt, body, id, archived)}
+        onClick={() => onArchiveMove(id, title, body, createdAt, archived)}
       >
         {archived ? 'Move' : 'Archieve'}
       </button>
