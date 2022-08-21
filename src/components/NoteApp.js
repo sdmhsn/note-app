@@ -10,36 +10,20 @@ class NoteApp extends React.Component {
 
     this.state = {
       notes: getInitialData(),
+      search: '',
     };
 
     this.onSearchNoteHandler = this.onSearchNoteHandler.bind(this);
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
-    this.onDeleteEventHandler = this.onDeleteEventHandler.bind(this);
     this.onArchiveMoveEventHandler = this.onArchiveMoveEventHandler.bind(this);
+    this.onDeleteEventHandler = this.onDeleteEventHandler.bind(this);
   }
 
-  // Search Note
   onSearchNoteHandler(event) {
-    const text = event.target.value.toLowerCase();
-    const noteData = getInitialData();
-    const tempStorage = [];
-
-    noteData.forEach((item) => {
-      if (item.title.toLowerCase().includes(text)) {
-        tempStorage.push(item);
-
-        this.setState(() => {
-          return {
-            notes: tempStorage,
-          };
-        });
-      } else {
-        this.setState(() => {
-          return {
-            notes: tempStorage,
-          };
-        });
-      }
+    this.setState(() => {
+      return {
+        search: event.target.value,
+      };
     });
   }
 
@@ -73,7 +57,7 @@ class NoteApp extends React.Component {
   }
 
   // Archive and Move Note
-  onArchiveMoveEventHandler(title, createdAt, body, id, archived) {
+  onArchiveMoveEventHandler(id, title, body, createdAt, archived) {
     if (archived) {
       const moves = this.state.notes.filter((note) =>
         note.id === id ? (note.archived = false) : note.archived
@@ -100,13 +84,17 @@ class NoteApp extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <NoteSearch onKeyUp={this.onSearchNoteHandler} />
+        <NoteSearch
+          search={this.state.search}
+          onSearchChange={this.onSearchNoteHandler}
+        />
         <div className="note-app__body">
           <NoteInput addNote={this.onAddNoteHandler} />
           <NoteList
             notes={this.state.notes}
             onDelete={this.onDeleteEventHandler}
             onArchiveMove={this.onArchiveMoveEventHandler}
+            searchKeyword={this.state.search}
           />
         </div>
       </React.Fragment>
